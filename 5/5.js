@@ -15,8 +15,10 @@ class Book {
   }
 }
 
-const newEnglanders = someCustomers.filter((c) => inNewEngland(c))
+const newEnglanders = someCustomers.filter((c) =>
+  xxNEWinNewEngland(c.address.state),
+)
 
-function inNewEngland(aCustomer) {
-  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(aCustomer.address.state)
+function inNewEngland(stateCode) {
+  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(stateCode)
 }
