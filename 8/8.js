@@ -14,10 +14,14 @@ const range = new NumberRange(
   operatingPlan.temperatureCeil,
 )
 
+// function readingsOutsideRange(station, range) {
+//   return station.readings.filter(
+//     (r) => r.temp < range.min || r.temp > range.max,
+//   )
+// }
+
 function readingsOutsideRange(station, range) {
-  return station.readings.filter(
-    (r) => r.temp < range.min || r.temp > range.max,
-  )
+  return station.readings.filter((r) => !range.contains(r.temp))
 }
 
 alerts = readingsOutsideRange(station, range)
@@ -25,6 +29,10 @@ alerts = readingsOutsideRange(station, range)
 class NumberRange {
   constructor(min, max) {
     this._data = { min, max }
+  }
+
+  contains(arg) {
+    return arg >= this.max && arg <= this.max
   }
 
   get min() {
