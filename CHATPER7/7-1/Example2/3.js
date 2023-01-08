@@ -30,12 +30,16 @@ const customerData = {
 }
 
 function compareUsage(customerID, laterYear, month) {
-  const later = getRawDataOfCustomers().usage(customerID, laterYear, month)
-  const earlier = getRawDataOfCustomers().usage(
-    customerID,
-    laterYear - 1,
-    month,
-  )
+  // 다른 방법으로 클라이언트가 데이터 구조를 요청할 때 실제 데이터를 제공해도 된다.
+  // 하지만 클라이언트가 테이터를 직접 수정하지 못하게 막을 방법이 없어서 "모든 쓰기 함수 안에서 처리한다"는 캡슐화의 핵심 원칙이 깨지는 게 문제다.
+  // 따라서 가장 간단한 방법은 앞에서 작성한 rawData() 메서드를 사용하여 내부 데이터를 복제해서 제공하는 것이다.
+  // 단점은 데이터 구조가 클수록 복제 비용이 커져서 성능이 느려질 수 있다는 것이다.
+  const later = getRawDataOfCustomers().rawData[customerID].usage[laterYear][
+    month
+  ]
+  const earlier = getRawDataOfCustomers().rawData[customerID].usage[
+    laterYear - 1
+  ][month]
   return { laterAmount: later, change: later - earlier }
 }
 
@@ -53,26 +57,12 @@ function getCustomerData() {
 }
 
 // const test = (customerData[customerID].usages[year][month] = amount)
-// const test = (getRawDataOfCustomers()[customerId].usages[year][month] = amount)
-const test = getCustomerData().setUsage(customerID, year, month, amount)
+const test = (getRawDataOfCustomers()[customerId].usages[year][month] = amount)
 
 // 2. 전체 구조를 표현하는 클래스를 정의하고, 이를 반환하는 함수를 새로 만든다.
 class customerData {
   constructor(data) {
     this._data = data
-  }
-
-  // 읽는 코드를 모두 독립 함수로 추출한 다음 고객 데이터 클래스로 옮긴다.
-  // 이 방법의 장점은 customerData의 모든 쓰임을 명시적인 API로 제공한다는 것이다.
-  // 이 클래스만 보면 데이터 사용 방법을 모두 파악할 수 있다.
-  // 하지만 읽는 패턴이 다양하면 그만큼 작성할 코드가 늘어난다.
-  // 리스트-해시(list-and-hash) 데이터 구조를 쉽게 다룰 수 있는데, 이런 언어를 사용하면다면 클라이언트에 데이터를 이 형태로 넘겨주는 것도 좋다.
-  usage(customerID, year, month) {
-    return this._data[customerID].usage[year][month]
-  }
-
-  setUsage(customerID, year, month, amount) {
-    this._data[customerID].usages[year][month] = amount
   }
 
   // 깊은 복사
