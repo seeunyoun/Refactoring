@@ -2,7 +2,7 @@ function distanceTravelled(scenario, time) {
   let result
   // 1. 변수에 새로운 이름을 지어주고, 2. 선언시 const를 붙여 불변으로 만든다.
   let primaryAcceleration = scenario.primaryForce / scenario.mass
-  let primaryTime = Math.min(time, scenario.delay)
+  const primaryTime = Math.min(time, scenario.delay)
   // 3. 두 번째 대입 전까지 모든 참조를 새로운 이름으로 바꾼다.
   result = 0.5 * primaryAcceleration * primaryTime * primaryTime
   let secondaryTime = time - scenario.delay
