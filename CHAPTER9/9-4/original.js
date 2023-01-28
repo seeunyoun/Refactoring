@@ -8,7 +8,7 @@ class Person {
   }
 
   set officeAreaCode(arg) {
-    return (this._telephoneNumber.areaCode = arg)
+    this._telephoneNumber.areaCode = arg
   }
 
   get officeNumber() {
