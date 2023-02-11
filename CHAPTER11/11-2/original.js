@@ -47,3 +47,28 @@ function topBand(usage) {
 }
 
 // 3. 테스트한다.
+
+// 4. 함수에서 사용하던 리터럴들을 적절한 매개변수로 대체한다. (100 -> bottom)
+// 5. 나머지 매개변수도 대체한다. (200 -> top)
+function withinBand(usage, bottom, top) {
+  return usage > bottom ? Math.min(usage, top) - bottom : 0
+}
+
+function baseCharge(usage) {
+  if (usage < 0) {
+    return usd(0)
+  }
+  const amount =
+    bottomBand(usage) * 0.03 +
+    withinBand(usage, 100, 200) * 0.05 +
+    topBand(usage) * 0.07
+  return usd(amount)
+}
+
+function bottomBand(usage) {
+  return Math.min(usage, 100)
+}
+
+function topBand(usage) {
+  return usage > 200 ? usage - 200 : 0
+}
