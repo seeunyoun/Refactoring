@@ -48,3 +48,19 @@ function alertForMiscreant(people) {
   }
   return ''
 }
+
+// 6. [더 가다듬기] 중복을 제거한다.
+function alertForMiscreant(people) {
+  if (findMiscreant(people) !== '') {
+    return setOffAlarms()
+  }
+  // for (const p of people) {
+  //   if (p === '조커') {
+  //     return setOffAlarms()
+  //   }
+  //   if (p === '사루만') {
+  //     return setOffAlarms()
+  //   }
+  // }
+  // return ''
+}
