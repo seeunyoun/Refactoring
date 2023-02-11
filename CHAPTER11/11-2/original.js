@@ -72,3 +72,30 @@ function bottomBand(usage) {
 function topBand(usage) {
   return usage > 200 ? usage - 200 : 0
 }
+
+//
+function withinBand(usage, bottom, top) {
+  return usage > bottom ? Math.min(usage, top) - bottom : 0
+}
+
+function baseCharge(usage) {
+  if (usage < 0) {
+    return usd(0)
+  }
+
+  // 6. bottomBand를 호출하는 부분도 새로 만든 매개변수화 함수를 호출하도록 바꾼다.
+  // 7. topBand를 호출하는 부분도 새로 만든 매개변수화 함수를 호출하도록 바꾼다. -> 상한 호출을 대체할 때는 무한대를 뜻하는 Infinity를 이용한다.
+  const amount =
+    withinBand(usage, 0, 100) * 0.03 +
+    withinBand(usage, 100, 200) * 0.05 +
+    withinBand(usage, 200, Infinity) * 0.07
+  return usd(amount)
+}
+
+// function bottomBand(usage) {
+//   return Math.min(usage, 100)
+// }
+
+// function topBand(usage) {
+//   return usage > 200 ? usage - 200 : 0
+// }
