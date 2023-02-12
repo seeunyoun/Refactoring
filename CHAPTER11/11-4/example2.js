@@ -23,7 +23,6 @@ if (!isWithinRange) {
 // 호출자
 // 2. 입력 매개변수를 추출한다.
 const tempRange = aRoom.daysTempRange
-
 // 1. '변수 추출하기' 리팩터링을 한다.
 const isWithinRange = xxNEWwithinRange(aPlan, tempRange)
 if (!isWithinRange) {
@@ -36,4 +35,25 @@ function xxNEWwithinRange(aPlan, tempRange) {
   const high = tempRange.high
   const isWithinRange = aPlan.withinRange(low, high)
   return isWithinRange
+}
+
+// ----------------------------------------------------------------------------------------
+
+// 호출자
+// 2. 입력 매개변수를 추출한다.
+const tempRange = aRoom.daysTempRange
+// 1. '변수 추출하기' 리팩터링을 한다.
+const isWithinRange = aPlan.xxNEWwithinRange(aPlan, tempRange)
+if (!isWithinRange) {
+  alert.push('방 온도가 지정 범위를 벗어났습니다.')
+}
+
+// 4. 원래 메서드는 클래스 안에 있으니 '함수 옮기기' 리팩터링을 수행한다.
+class HeatingPlan {
+  xxNEWwithinRange(aPlan, tempRange) {
+    const low = tempRange.low
+    const high = tempRange.high
+    const isWithinRange = aPlan.withinRange(low, high)
+    return isWithinRange
+  }
 }
