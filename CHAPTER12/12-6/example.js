@@ -225,4 +225,75 @@ function loadFromInput(data) {
 // }
 
 // const numberOfMales = people.filter((p) => p instanceof Male).length;
+// const numberOfMales = people.filter((p) => p.isMale).length;
+
+//  ------------------------------------------------
+
+class Person {
+  // 6. 생성자에서 매개변수로 받아 설정하도록 한다.
+  // 9. 성별코드를 동일하게 전달하도록 createPerson()의 default를 고쳤으므로, 생성자에 있는 'X' 성별코드를 제거한다..
+  constructor(name, genderCode) {
+    this._name = name;
+    this._genderCode = genderCode;
+  }
+
+  // 5. genderCode 필드를 추가하고,
+  get genderCode() {
+    return this._genderCode;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get genderCode() {
+    return "X";
+  }
+
+  // 4. 추출한 함수를 Person으로 옮긴다.
+  // 7. 남성인 경우의 로직을 슈퍼클래스로 옮긴다.
+  get isMale() {
+    return "M" === this._genderCode;
+  }
+
+  get isFemale() {
+    return "F" === this._genderCode;
+  }
+}
+
+class Male extends Person {
+  get genderCode() {
+    return "Y";
+  }
+}
+
+class Female extends Person {
+  get genderCode() {
+    return "F";
+  }
+}
+
+// 1. 팩터리 함수를 생성한다.
+// 2. 변수 p를 인라인 한다.
+function createPerson(aRecord) {
+  switch (aRecord.gender) {
+    case "M": {
+      return new Person(aRecord.name, "M");
+    }
+    case "F": {
+      return new Person(aRecord.name, "F");
+    }
+    // 9. 성별코드를 동일하게 전달하도록 default를 고친다.
+    default: {
+      return new Person(aRecord.name, "X");
+    }
+  }
+}
+
+// 2. 반복문을 파이프라인으로 바꾼다.
+function loadFromInput(data) {
+  return data.map((aRecord) => createPerson(aRecord));
+}
+
+// [클라이언트]
 const numberOfMales = people.filter((p) => p.isMale).length;
